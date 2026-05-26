@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Javaria Akbar — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #1a56db;
+    --accent-soft: #e8f0fd;
+    --ink: #111827;
+    --muted: #4b5563;
+    --faint: #9ca3af;
+    --surface: #ffffff;
+    --lifted: #f9fafb;
+    --rule: #e5e7eb;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f9fafb;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .port {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 0.5px solid var(--rule);
+    border-radius: 16px;
+    padding: 3rem 3.5rem;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 0.5px solid var(--rule);
+  }
+  .nav-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero { margin-bottom: 3.5rem; }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-body {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 520px;
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.25rem; }
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 5px 12px;
+    border-radius: 100px;
+    border: 0.5px solid var(--rule);
+    color: var(--muted);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--rule);
+  }
+
+  /* PROJECTS */
+  .projects { display: flex; flex-direction: column; gap: 12px; margin-bottom: 3.5rem; }
+
+  .proj-card {
+    background: var(--surface);
+    border: 0.5px solid var(--rule);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .proj-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(26,86,219,0.06);
+  }
+
+  .proj-header {
+    padding: 1.25rem 1.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    user-select: none;
+  }
+  .proj-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--faint);
+    padding-top: 3px;
+    min-width: 20px;
+  }
+  .proj-main { flex: 1; }
+  .proj-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .proj-subtitle { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .proj-toggle {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    color: var(--faint);
+    transition: transform 0.2s, color 0.15s;
+    padding-top: 1px;
+    line-height: 1;
+  }
+  .proj-card.open .proj-toggle { transform: rotate(45deg); color: var(--accent); }
+  .proj-card:hover .proj-toggle { color: var(--accent); }
+
+  .proj-body {
+    display: none;
+    padding: 0 1.5rem 1.25rem;
+    padding-left: calc(1.5rem + 20px + 1rem);
+    border-top: 0.5px solid var(--rule);
+    padding-top: 1rem;
+  }
+  .proj-card.open .proj-body { display: block; }
+
+  .proj-section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+  .proj-section-title:first-child { margin-top: 0; }
+
+  .feat-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .feat-list li {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+    display: flex;
+    gap: 8px;
+  }
+  .feat-list li::before {
+    content: '—';
+    color: var(--accent);
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding-top: 1px;
+  }
+
+  .code-snippet {
+    background: var(--lifted);
+    border: 0.5px solid var(--rule);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    margin-top: 4px;
+    overflow-x: auto;
+  }
+  .code-snippet code {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: pre;
+    line-height: 1.6;
+    display: block;
+  }
+  .kw  { color: var(--accent); }
+  .str { color: #0e7c5b; }
+  .cm  { color: var(--faint); }
+
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .proj-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    padding: 3px 9px;
+    border-radius: 4px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+  }
+  .skill-group {
+    background: var(--surface);
+    border: 0.5px solid var(--rule);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+  }
+  .skill-group-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 0.75rem; }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .skill-list li {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .skill-list li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* EDUCATION */
+  .edu-list { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3.5rem; }
+  .edu-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 0.5px solid var(--rule);
+    border-radius: var(--radius-lg);
+  }
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--faint);
+    min-width: 72px;
+    padding-top: 2px;
+    letter-spacing: 0.04em;
+  }
+  .edu-degree { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .edu-school { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+
+  /* FOOTER */
+  .footer {
+    border-top: 0.5px solid var(--rule);
+    padding-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-name { font-family: 'DM Serif Display', serif; font-size: 15px; color: var(--muted); }
+  .footer-contact { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .footer-contact a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.15s;
+  }
+  .footer-contact a:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .port { padding: 2rem 1.5rem; }
+    .hero-title { font-size: 30px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .nav { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="port">
+
+  <nav class="nav">
+    <span class="nav-name">Javaria Akbar</span>
+    <div class="nav-links">
+      <a href="https://linkedin.com/in/javaria-akbar-2a8435350" target="_blank">LinkedIn</a>
+      <a href="mailto:javariaakbar6@gmail.com">Email</a>
+      <a href="https://www.instagram.com/zaayrstudio" target="_blank">Instagram</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-tag">CS Student · Bahria University · Lahore</p>
+    <h1 class="hero-title">Building things with<br><em>code & curiosity.</em></h1>
+    <p class="hero-body">4th semester Computer Science student with hands-on experience across C++, SQL, and network infrastructure. From low-level system design to full relational databases — I build things end to end.</p>
+    <div class="pills">
+      <span class="pill">C++</span>
+      <span class="pill">SQL</span>
+      <span class="pill">HTML & CSS</span>
+      <span class="pill">DSA</span>
+      <span class="pill">DBMS</span>
+      <span class="pill">Networking</span>
+      <span class="pill">OSPF</span>
+      <span class="pill">VLANs</span>
+    </div>
+  </section>
+
+  <p class="section-label">Projects</p>
+
+  <div class="projects">
+
+    <div class="proj-card open">
+      <div class="proj-header" onclick="toggle(this)">
+        <span class="proj-num">01</span>
+        <div class="proj-main">
+          <p class="proj-title">SaaS Support Ticket Management System</p>
+          <p class="proj-subtitle">Relational database for managing customer support tickets end-to-end, with role-based access, SLA tracking, and full ticket lifecycle.</p>
+        </div>
+        <span class="proj-toggle">+</span>
+      </div>
+      <div class="proj-body">
+        <p class="proj-section-title">What it does</p>
+        <ul class="feat-list">
+          <li>Customers submit tickets; agents are assigned based on role; admins oversee everything</li>
+          <li>SLA table enforces response & resolution time limits per priority (Low 48h / Medium 24h / High 12h)</li>
+          <li>Full ticket history log tracks every status change with timestamp and actor</li>
+          <li>Internal vs. public responses differentiated with <code>is_internal</code> flag</li>
+          <li>15+ queries including aggregations, subqueries, JOINs, and GROUP BY with HAVING</li>
+        </ul>
+        <p class="proj-section-title">Schema highlight</p>
+        <div class="code-snippet"><code><span class="kw">CREATE TABLE</span> Tickets (
+  ticket_id   <span class="kw">INT PRIMARY KEY</span>,
+  subject     <span class="kw">VARCHAR</span>(255) <span class="kw">NOT NULL</span>,
+  priority_id <span class="kw">INT REFERENCES</span> Ticket_Priority,
+  status_id   <span class="kw">INT REFERENCES</span> Ticket_Status,
+  sla_id      <span class="kw">INT REFERENCES</span> SLA,
+  created_at  <span class="kw">DATETIME DEFAULT</span> GETDATE()
+);</code></div>
+        <div class="proj-tags">
+          <span class="proj-tag">SQL</span>
+          <span class="proj-tag">DBMS</span>
+          <span class="proj-tag">Relational Design</span>
+          <span class="proj-tag">SLA</span>
+          <span class="proj-tag">Role-Based Access</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header" onclick="toggle(this)">
+        <span class="proj-num">02</span>
+        <div class="proj-main">
+          <p class="proj-title">University Network System</p>
+          <p class="proj-subtitle">Full campus network simulated in Cisco Packet Tracer — 3 departments, core router, WAN links, firewall, and DNS.</p>
+        </div>
+        <span class="proj-toggle">+</span>
+      </div>
+      <div class="proj-body">
+        <p class="proj-section-title">Architecture</p>
+        <ul class="feat-list">
+          <li>Centralized Head Office (Lahore) connected to CS, HR, and Finance departments via WAN serial links</li>
+          <li>VLANs per department for traffic isolation — departments can't see each other's broadcast traffic</li>
+          <li>OSPF dynamic routing for automatic path calculation and fast convergence across all segments</li>
+          <li>VLSM (Variable Length Subnet Masking) for efficient IP address allocation per department size</li>
+          <li>Firewall at Head Office blocks unauthorized cross-department access</li>
+          <li>Centralized DNS server resolves hostnames across the entire university network</li>
+        </ul>
+        <div class="proj-tags">
+          <span class="proj-tag">Cisco Packet Tracer</span>
+          <span class="proj-tag">OSPF</span>
+          <span class="proj-tag">VLANs</span>
+          <span class="proj-tag">WAN</span>
+          <span class="proj-tag">DNS</span>
+          <span class="proj-tag">VLSM</span>
+          <span class="proj-tag">Firewall</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header" onclick="toggle(this)">
+        <span class="proj-num">03</span>
+        <div class="proj-main">
+          <p class="proj-title">Library Management System</p>
+          <p class="proj-subtitle">Full-featured CLI library system in C++ with dual login, book issuance, fine calculation, and persistent file storage.</p>
+        </div>
+        <span class="proj-toggle">+</span>
+      </div>
+      <div class="proj-body">
+        <p class="proj-section-title">Features</p>
+        <ul class="feat-list">
+          <li>Admin portal: add, edit, remove books; view all records sorted by title</li>
+          <li>Student portal: create account, deposit balance, issue & return books</li>
+          <li>Auto fine calculation — PKR 1/day for overdue returns using ctime</li>
+          <li>Books tracked by ISBN, row/column shelf location, and availability flag</li>
+          <li>Data saved to file on exit and reloaded on next run</li>
+        </ul>
+        <p class="proj-section-title">Code highlight</p>
+        <div class="code-snippet"><code><span class="cm">// Fine calculation on return</span>
+<span class="kw">double</span> days_overdue = difftime(now, issue_date) / 86400 - ISSUE_PERIOD;
+<span class="kw">if</span> (days_overdue > 0)
+    balance -= days_overdue * FINE_PER_DAY;
+    <span class="cm">// Deducted from student's account balance</span></code></div>
+        <div class="proj-tags">
+          <span class="proj-tag">C++</span>
+          <span class="proj-tag">File I/O</span>
+          <span class="proj-tag">OOP</span>
+          <span class="proj-tag">DSA</span>
+          <span class="proj-tag">CLI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-header" onclick="toggle(this)">
+        <span class="proj-num">04</span>
+        <div class="proj-main">
+          <p class="proj-title">Grocery Store Manager</p>
+          <p class="proj-subtitle">Inventory management system in C++ with persistent product storage, cart checkout, and full CRUD operations.</p>
+        </div>
+        <span class="proj-toggle">+</span>
+      </div>
+      <div class="proj-body">
+        <p class="proj-section-title">Features</p>
+        <ul class="feat-list">
+          <li>View, add, update, and delete products — each with ID, name, price, and quantity</li>
+          <li>Products saved to products.txt and reloaded each session — no data loss</li>
+          <li>Duplicate ID detection prevents data integrity issues on add</li>
+          <li>Cart system: select items, auto-deducts quantity from inventory on checkout</li>
+        </ul>
+        <p class="proj-section-title">Code highlight</p>
+        <div class="code-snippet"><code><span class="kw">struct</span> Product {
+    <span class="kw">int</span>    id;
+    <span class="kw">char</span>   name[50];
+    <span class="kw">double</span> price;
+    <span class="kw">int</span>    quantity;
+};
+<span class="cm">// Persisted to products.txt via fstream</span></code></div>
+        <div class="proj-tags">
+          <span class="proj-tag">C++</span>
+          <span class="proj-tag">Structs</span>
+          <span class="proj-tag">File I/O</span>
+          <span class="proj-tag">CLI</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="section-label">E-Commerce</p>
+
+  <div style="background:var(--surface);border:0.5px solid var(--rule);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:3.5rem;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;">
+      <div>
+        <p style="font-size:15px;font-weight:500;color:var(--ink);margin-bottom:4px;">Zayr Studio</p>
+        <p style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.04em;">@zaayrstudio</p>
+      </div>
+      <a href="https://www.instagram.com/zaayrstudio" target="_blank" style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);text-decoration:none;border:0.5px solid var(--accent-soft);background:var(--accent-soft);padding:6px 14px;border-radius:100px;white-space:nowrap;transition:background 0.15s;">View on Instagram ↗</a>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:1rem;">Built and scaled an e-commerce store from the ground up — handling everything from product content and brand identity to audience engagement and visibility strategy.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1rem;">
+      <div style="background:var(--lifted);border:0.5px solid var(--rule);border-radius:var(--radius-md);padding:12px;">
+        <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;">Focus</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);">Content & Brand</p>
+      </div>
+      <div style="background:var(--lifted);border:0.5px solid var(--rule);border-radius:var(--radius-md);padding:12px;">
+        <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;">Platform</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);">Instagram</p>
+      </div>
+      <div style="background:var(--lifted);border:0.5px solid var(--rule);border-radius:var(--radius-md);padding:12px;">
+        <p style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;">Stores</p>
+        <p style="font-size:13px;font-weight:500;color:var(--ink);">2 built & scaled</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;padding:3px 9px;border-radius:4px;background:var(--accent-soft);color:var(--accent);">Content Creation</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;padding:3px 9px;border-radius:4px;background:var(--accent-soft);color:var(--accent);">Brand Building</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;padding:3px 9px;border-radius:4px;background:var(--accent-soft);color:var(--accent);">Audience Engagement</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;padding:3px 9px;border-radius:4px;background:var(--accent-soft);color:var(--accent);">Canva · InShot · CapCut</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.04em;padding:3px 9px;border-radius:4px;background:var(--accent-soft);color:var(--accent);">SEO</span>
+    </div>
+  </div>
+
+  <p class="section-label">Skills</p>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <p class="skill-group-title">Programming</p>
+      <ul class="skill-list">
+        <li>C++ (OOP, DSA, File I/O)</li>
+        <li>SQL (DDL, DML, Joins)</li>
+        <li>HTML & CSS</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Networking</p>
+      <ul class="skill-list">
+        <li>Cisco Packet Tracer</li>
+        <li>OSPF, VLANs, WAN, DNS</li>
+        <li>VLSM & IP Addressing</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Tools</p>
+      <ul class="skill-list">
+        <li>Canva · InShot · CapCut</li>
+        <li>MS Office Suite</li>
+        <li>Claude AI</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Certifications</p>
+      <ul class="skill-list">
+        <li>SEO Fundamentals</li>
+        <li>HubSpot Academy</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="section-label">Education</p>
+  <div class="edu-list">
+    <div class="edu-item">
+      <span class="edu-year">2024–2028</span>
+      <div>
+        <p class="edu-degree">Bachelor of Computer Science</p>
+        <p class="edu-school">Bahria University, Lahore</p>
+      </div>
+    </div>
+    <div class="edu-item">
+      <span class="edu-year">2022–2024</span>
+      <div>
+        <p class="edu-degree">Intermediate (Pre-Engineering)</p>
+        <p class="edu-school">KIPS College, Lahore</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span class="footer-name">Javaria Akbar</span>
+    <div class="footer-contact">
+      <a href="mailto:javariaakbar6@gmail.com">javariaakbar6@gmail.com</a>
+      <a href="tel:+923096738867">+92 309 673 8867</a>
+      <a href="https://www.instagram.com/zaayrstudio" target="_blank">@zaayrstudio</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  function toggle(header) {
+    const card = header.closest('.proj-card');
+    card.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
